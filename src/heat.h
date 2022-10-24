@@ -25,9 +25,11 @@ __device__ void contributeFluidTemerpature(float* temperature, const int i, floa
 	float sph_func, dT, coeff = 0.001f;
 	while (j < cellEnd)
 	{
-		// dT/dt
+		// Constraint based
 		sph_func = (temperature[i] - temperature[j]) * cubic_spline_kernel(length(pos[i] - pos[j]), radius);
-		dT = coeff * sph_func * dt;
+
+		// SPH based
+		// sph_func = cubic_spline_kernel_laplacian(length(pos[i] - pos[j]), radius);
 
 		//T(i+1) = T(i) + dT
 		temperature[i] += dT;
